@@ -1,0 +1,1 @@
+I am a windows users and my cpu is intel core i5 13450hx, 24gb ram, and 6gb nvidia rtx 4050 gpu.ha
