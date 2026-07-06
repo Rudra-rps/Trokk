@@ -159,6 +159,30 @@
 **Rationale:** Developer runs Windows with an i5-13450HX + 24GB RAM + RTX 4050 (6GB VRAM). Docker Desktop on Windows adds overhead and GPU passthrough for Ollama is unreliable. Running Ollama natively on Windows gives direct GPU access with no virtualization penalty. Go cross-compiles trivially to Windows. Python runs natively. PostgreSQL/Redis in Docker are lightweight I/O-bound services where Docker overhead is negligible.
 **Trade-offs:** No single `docker compose up` for everything. Startup requires: `docker compose up` (DB + Redis) + `go run` (API) + `python` (orchestrator) + Ollama already running as Windows service. Acceptable for a solo dev research project.
 
+### D017 — DB Migrations: Goose Embedded, Auto-Run on Startup
+**Date:** 2026-07-06
+**Choice:** `pressly/goose` embedded into `cmd/server/main.go`, runs `UP` migrations automatically on server startup before the router is mounted.
+**Rationale:** For a solo dev research project, auto-migrate eliminates a manual startup step and prevents the "forgot to migrate → cryptic errors" cycle. Goose is SQL-first, supports both UP and DOWN, and the `stdlib.OpenDBFromPool` bridge lets it work with the existing pgxpool connection.
+**Trade-offs:** Auto-migration in production is generally risky — fine here since this is a single-instance local research tool.
+
+### D018 — Control Signaling: DB Polling via `control_signals` Table
+**Date:** 2026-07-06
+**Choice:** Go API writes `force_tick` signals to a `control_signals` table with columns `(id, signal_type, agent_id, created_at, processed)`. Python orchestrator polls this table every 1s for unprocessed signals.
+**Rationale:** DB-based signaling is durable (no lost messages if Python restarts), simple (no new infrastructure), and the 1s poll interval is negligible at 10-agent scale. Redis Pub/Sub was considered but is fire-and-forget — signals would be lost if Python isn't listening.
+**Trade-offs:** 1s latency on force-tick. Polling overhead grows linearly with agent count (fine at 10, reconsider at 1000).
+
+### D019 — Stream Pagination: Composite `(created_at DESC, id DESC)` Cursor
+**Date:** 2026-07-06
+**Choice:** Message stream uses cursor-based pagination with a composite key of `(created_at DESC, id DESC)`. The cursor is a Base64-encoded JSON object `{"t":"<RFC3339>","id":"<uuid>"}`. Empty cursor = start from newest. The query fetches `limit + 1` rows to detect `has_more` without a COUNT.
+**Rationale:** Cursor pagination is stable under insertion (no page drift like `OFFSET`), performs well with the `idx_messages_stream` composite index, and the `+1 trick` avoids a second COUNT query. Base64 JSON cursors are opaque to clients but human-decodable for debugging.
+**Trade-offs:** No `total_count` or page numbers (infinite scroll only). No jumping to page N.
+
+### D020 — Go Backend Project Structure: Flat Internal Layout
+**Date:** 2026-07-06
+**Choice:** Flat `internal/` layout with packages for `config`, `handler`, `model`, `middleware`, `store/pg`, `store/redis`, and `stream`. No `service/` layer. Handlers call store functions directly except for the stream read path which goes through `stream/cache.go`.
+**Rationale:** 16 CRUD-heavy endpoints with thin business logic don't warrant a service layer abstraction. The `stream/` package encapsulates the one non-trivial read path (cache-aside Redis + Postgres fallback). All packages are zero-config — they accept their dependencies as parameters rather than importing a global config.
+**Trade-offs:** If business logic grows complex (e.g., recommendation algorithms), a `service/` layer would be warranted. Flat structure is easily refactored.
+
 ---
 
 ## v1 (Stage 1) Scope
