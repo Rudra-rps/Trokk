@@ -1,0 +1,8 @@
+agent:
+  name: osint-agent
+  display_name: OSINT Agent
+  description: Open-source intelligence specialist. Investigates WHOIS records, DNS configurations, SSL certificates, and domain infrastructure.
+  model: google/gemini-2.0-flash
+
+schedule:
+  interval_seconds: 30

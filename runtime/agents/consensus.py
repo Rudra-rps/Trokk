@@ -2,8 +2,6 @@ import json
 import uuid
 from dataclasses import dataclass, field
 
-import httpx
-
 from config import Config
 from mesh import MeshClient, MeshMessage
 
@@ -36,7 +34,6 @@ class ConsensusAgent:
     def __init__(self, cfg: Config):
         self.cfg = cfg
         self.mesh = MeshClient(cfg.mesh_url, cfg.mesh_api_key)
-        self._http = httpx.Client(timeout=30)
 
     def generate_report(
         self, investigation_id: uuid.UUID, question: str, findings: list[dict]
@@ -79,47 +76,22 @@ class ConsensusAgent:
 
         try:
             data = json.loads(resp.content.strip())
-            return ConsensusReport(
-                investigation_id=investigation_id,
-                question=question,
-                executive_summary=data.get("executive_summary", ""),
-                key_findings=data.get("key_findings", []),
-                contradictions=data.get("contradictions", []),
-                confidence_score=data.get("confidence_score", 0.5),
-                open_questions=data.get("open_questions", []),
-                recommendations=data.get("recommendations", []),
-            )
         except json.JSONDecodeError:
             data = json.loads(extract_json(resp.content))
-            return ConsensusReport(
-                investigation_id=investigation_id,
-                question=question,
-                executive_summary=data.get("executive_summary", resp.content[:500]),
-                key_findings=data.get("key_findings", []),
-                contradictions=data.get("contradictions", []),
-                confidence_score=data.get("confidence_score", 0.5),
-                open_questions=data.get("open_questions", []),
-                recommendations=data.get("recommendations", []),
-            )
 
-    def publish_report(self, investigation_id: uuid.UUID, report: ConsensusReport):
-        headers = {
-            "Authorization": f"Bearer {self.cfg.admin_api_key}",
-            "Content-Type": "application/json",
-        }
-        self._http.patch(
-            f"{self.cfg.api_base_url}/api/v1/investigations/{investigation_id}",
-            headers=headers,
-            json={"report": report.to_dict()},
-        )
-        self._http.post(
-            f"{self.cfg.api_base_url}/api/v1/investigations/{investigation_id}/complete",
-            headers=headers,
+        return ConsensusReport(
+            investigation_id=investigation_id,
+            question=question,
+            executive_summary=data.get("executive_summary", ""),
+            key_findings=data.get("key_findings", []),
+            contradictions=data.get("contradictions", []),
+            confidence_score=data.get("confidence_score", 0.5),
+            open_questions=data.get("open_questions", []),
+            recommendations=data.get("recommendations", []),
         )
 
     def close(self):
         self.mesh.close()
-        self._http.close()
 
 
 def extract_json(text: str) -> str:

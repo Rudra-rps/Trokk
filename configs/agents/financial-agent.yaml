@@ -1,0 +1,8 @@
+agent:
+  name: financial-agent
+  display_name: Financial Agent
+  description: Company filings and valuation specialist. Analyzes SEC filings, revenue data, funding rounds, and financial metrics.
+  model: google/gemini-2.0-flash
+
+schedule:
+  interval_seconds: 30

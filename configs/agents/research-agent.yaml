@@ -1,0 +1,8 @@
+agent:
+  name: research-agent
+  display_name: Research Agent
+  description: Web search and documentation specialist. Investigates using official sources, documentation, and research databases.
+  model: google/gemini-2.0-flash
+
+schedule:
+  interval_seconds: 30

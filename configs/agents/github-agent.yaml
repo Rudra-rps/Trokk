@@ -1,0 +1,8 @@
+agent:
+  name: github-agent
+  display_name: GitHub Agent
+  description: Repository analysis specialist. Analyzes commit activity, contributors, issues, and code quality metrics.
+  model: anthropic/claude-sonnet-4-20250514
+
+schedule:
+  interval_seconds: 30
