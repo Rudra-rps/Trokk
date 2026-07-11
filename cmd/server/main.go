@@ -65,7 +65,12 @@ func main() {
 	}
 	slog.Info("connected to postgres")
 
-	rdb := goredis.NewClient(&goredis.Options{Addr: "localhost:6379"})
+	rdbOpts, err := goredis.ParseURL(cfg.RedisURL)
+	if err != nil {
+		slog.Error("failed to parse redis url", "error", err)
+		os.Exit(1)
+	}
+	rdb := goredis.NewClient(rdbOpts)
 	if err := rdb.Ping(ctx).Err(); err != nil {
 		slog.Error("redis ping failed", "error", err)
 		os.Exit(1)
