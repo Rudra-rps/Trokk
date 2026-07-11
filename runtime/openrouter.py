@@ -3,20 +3,20 @@ from dataclasses import dataclass, field
 
 
 @dataclass
-class MeshMessage:
+class LLMMessage:
     role: str
     content: str
 
 
 @dataclass
-class MeshResponse:
+class LLMResponse:
     content: str
     model: str
     usage: dict = field(default_factory=dict)
 
 
-class MeshClient:
-    """Thin HTTP client for Mesh — OpenAI-compatible /v1/chat/completions."""
+class OpenRouterClient:
+    """Thin HTTP client for OpenRouter — OpenAI-compatible /v1/chat/completions."""
 
     def __init__(self, base_url: str, api_key: str, timeout: float = 120.0):
         self.base_url = base_url.rstrip("/")
@@ -26,10 +26,10 @@ class MeshClient:
     def chat(
         self,
         model: str,
-        messages: list[MeshMessage],
+        messages: list[LLMMessage],
         max_tokens: int = 2048,
         temperature: float = 0.7,
-    ) -> MeshResponse:
+    ) -> LLMResponse:
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
@@ -49,7 +49,7 @@ class MeshClient:
         resp.raise_for_status()
         data = resp.json()
 
-        return MeshResponse(
+        return LLMResponse(
             content=data["choices"][0]["message"]["content"],
             model=data.get("model", model),
             usage=data.get("usage", {}),
@@ -57,3 +57,4 @@ class MeshClient:
 
     def close(self):
         self._client.close()
+

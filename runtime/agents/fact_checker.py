@@ -7,7 +7,7 @@ class FactCheckerAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="fact-checker",
-            model="deepseek/deepseek-chat",
+            model="deepseek/deepseek-chat:free",
             system_prompt=(
                 "You are a fact-checker agent in the Trokk intelligence operating system. "
                 "Your role is to verify claims made by other agents. For each finding you review, "

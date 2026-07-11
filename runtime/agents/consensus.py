@@ -3,7 +3,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from config import Config
-from mesh import MeshClient, MeshMessage
+from openrouter import OpenRouterClient, LLMMessage
 
 
 @dataclass
@@ -33,7 +33,7 @@ class ConsensusReport:
 class ConsensusAgent:
     def __init__(self, cfg: Config):
         self.cfg = cfg
-        self.mesh = MeshClient(cfg.mesh_url, cfg.mesh_api_key)
+        self.mesh = OpenRouterClient(cfg.openrouter_url, cfg.openrouter_api_key)
 
     def generate_report(
         self, investigation_id: uuid.UUID, question: str, findings: list[dict]
@@ -63,12 +63,12 @@ class ConsensusAgent:
         )
 
         messages = [
-            MeshMessage(role="system", content="You are a consensus synthesis engine. Output valid JSON only."),
-            MeshMessage(role="user", content=prompt),
+            LLMMessage(role="system", content="You are a consensus synthesis engine. Output valid JSON only."),
+            LLMMessage(role="user", content=prompt),
         ]
 
         resp = self.mesh.chat(
-            model="anthropic/claude-sonnet-4-20250514",
+            model="google/gemini-2.0-flash-001",
             messages=messages,
             max_tokens=4096,
             temperature=0.3,

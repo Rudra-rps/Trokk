@@ -2,7 +2,7 @@ agent:
   name: news-agent
   display_name: News Agent
   description: News and press release analyst. Monitors RSS feeds, news APIs, and press releases for relevant information.
-  model: google/gemini-2.0-flash
+  model: meta-llama/llama-3.2-3b-instruct:free
 
 schedule:
   interval_seconds: 30

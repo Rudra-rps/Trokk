@@ -10,7 +10,7 @@ from langgraph.graph import StateGraph
 from langgraph.checkpoint.postgres import PostgresSaver
 
 from config import Config
-from mesh import MeshClient, MeshMessage
+from openrouter import OpenRouterClient, LLMMessage
 
 
 @dataclass
@@ -33,7 +33,7 @@ class BaseAgent:
         self.name = name
         self.model = model
         self.system_prompt = system_prompt
-        self.mesh = MeshClient(cfg.mesh_url, cfg.mesh_api_key)
+        self.mesh = OpenRouterClient(cfg.openrouter_url, cfg.openrouter_api_key)
         self._http = httpx.Client(timeout=30)
         self.graph = self._build_graph()
 
@@ -53,8 +53,8 @@ class BaseAgent:
     def _research(self, state: AgentState) -> AgentState:
         try:
             messages = [
-                MeshMessage(role="system", content=self.system_prompt),
-                MeshMessage(
+                LLMMessage(role="system", content=self.system_prompt),
+                LLMMessage(
                     role="user",
                     content=f"Task: {state.task_prompt}\n\nInvestigation context: you are contributing findings to investigation {state.investigation_id}. Provide detailed, well-sourced research output.",
                 ),

@@ -2,7 +2,7 @@ agent:
   name: fact-checker
   display_name: Fact Checker
   description: Verification specialist. Detects hallucinations, validates claims, and cross-references findings against known sources.
-  model: deepseek/deepseek-chat
+  model: deepseek/deepseek-chat:free
 
 schedule:
   interval_seconds: 30

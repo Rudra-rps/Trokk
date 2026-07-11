@@ -2,7 +2,7 @@ agent:
   name: consensus-agent
   display_name: Consensus Agent
   description: Report synthesis engine. Reads all findings and produces a structured final report with executive summary, confidence scores, contradictions, and recommendations.
-  model: anthropic/claude-sonnet-4-20250514
+  model: google/gemini-2.0-flash-001
 
 schedule:
   interval_seconds: 60
