@@ -123,6 +123,11 @@ func main() {
 
 			r.Get("/messages/{id}", h.GetMessage)
 
+			r.Post("/investigations", h.CreateInvestigation)
+			r.Get("/investigations", h.ListInvestigations)
+			r.Get("/investigations/{id}", h.GetInvestigation)
+			r.Post("/investigations/{id}/consensus", h.TriggerConsensus)
+
 			r.Get("/control/status", h.ControlStatus)
 			r.Post("/control/tick/{agentId}", h.ControlTick)
 			r.Post("/control/pause-all", h.ControlPauseAll)

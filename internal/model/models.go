@@ -136,3 +136,34 @@ type HealthResponse struct {
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
+
+type Investigation struct {
+	ID           uuid.UUID       `json:"id"`
+	Question     string          `json:"question"`
+	Status       string          `json:"status"`
+	Report       json.RawMessage `json:"report,omitempty"`
+	CreatedAt    time.Time       `json:"created_at"`
+	CompletedAt  *time.Time      `json:"completed_at,omitempty"`
+}
+
+type InvestigationTask struct {
+	ID               uuid.UUID       `json:"id"`
+	InvestigationID  uuid.UUID       `json:"investigation_id"`
+	AgentID          uuid.UUID       `json:"agent_id"`
+	TaskType         string          `json:"task_type"`
+	TaskPrompt       string          `json:"task_prompt"`
+	Status           string          `json:"status"`
+	Result           json.RawMessage `json:"result,omitempty"`
+	CreatedAt        time.Time       `json:"created_at"`
+	CompletedAt      *time.Time      `json:"completed_at,omitempty"`
+}
+
+type InvestigationWithTasks struct {
+	Investigation
+	Tasks []InvestigationTask `json:"tasks"`
+}
+
+type CreateInvestigationRequest struct {
+	Question string   `json:"question" validate:"required,min=3"`
+	TaskTypes []string `json:"task_types,omitempty"`
+}
