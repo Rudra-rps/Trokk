@@ -2,7 +2,7 @@ agent:
   name: osint-agent
   display_name: OSINT Agent
   description: Open-source intelligence specialist. Investigates WHOIS records, DNS configurations, SSL certificates, and domain infrastructure.
-  model: meta-llama/llama-3.2-3b-instruct:free
+  model: llama3.2:3b
 
 schedule:
   interval_seconds: 30

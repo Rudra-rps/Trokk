@@ -2,7 +2,7 @@ agent:
   name: crypto-agent
   display_name: Crypto Agent
   description: Cryptocurrency and DeFi specialist. Analyzes tokenomics, on-chain data, liquidity pools, and protocol metrics.
-  model: meta-llama/llama-3.2-3b-instruct:free
+  model: llama3.2:3b
 
 schedule:
   interval_seconds: 30

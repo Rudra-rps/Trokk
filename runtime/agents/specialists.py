@@ -7,7 +7,7 @@ class NewsAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="news-agent",
-            model="meta-llama/llama-3.2-3b-instruct:free",
+            model="llama3.2:3b",
             system_prompt=(
                 "You are a news analyst agent in the Trokk intelligence operating system. "
                 "Your role is to gather and analyze news articles, press releases, and media coverage. "
@@ -28,7 +28,7 @@ class RedditAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="reddit-agent",
-            model="meta-llama/llama-3.2-3b-instruct:free",
+            model="llama3.2:3b",
             system_prompt=(
                 "You are a community intelligence agent in the Trokk intelligence operating system. "
                 "Your role is to analyze community discussions, sentiment, FAQs, and user perspectives. "
@@ -49,7 +49,7 @@ class GitHubAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="github-agent",
-            model="google/gemini-2.0-flash-001",
+            model="llama3.2:3b",
             system_prompt=(
                 "You are a repository analyst agent in the Trokk intelligence operating system. "
                 "Your role is to analyze GitHub repositories: commit patterns, contributor activity, "
@@ -70,7 +70,7 @@ class FinancialAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="financial-agent",
-            model="meta-llama/llama-3.2-3b-instruct:free",
+            model="llama3.2:3b",
             system_prompt=(
                 "You are a financial analyst agent in the Trokk intelligence operating system. "
                 "Your role is to analyze company financials: revenue trends, funding history, "
@@ -91,7 +91,7 @@ class CryptoAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="crypto-agent",
-            model="meta-llama/llama-3.2-3b-instruct:free",
+            model="llama3.2:3b",
             system_prompt=(
                 "You are a cryptocurrency analyst agent in the Trokk intelligence operating system. "
                 "Your role is to analyze crypto projects: tokenomics, on-chain metrics, "
@@ -112,7 +112,7 @@ class OsintAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="osint-agent",
-            model="meta-llama/llama-3.2-3b-instruct:free",
+            model="llama3.2:3b",
             system_prompt=(
                 "You are an OSINT agent in the Trokk intelligence operating system. "
                 "Your role is to investigate technical infrastructure: WHOIS records, "

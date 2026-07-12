@@ -2,7 +2,7 @@ agent:
   name: financial-agent
   display_name: Financial Agent
   description: Company filings and valuation specialist. Analyzes SEC filings, revenue data, funding rounds, and financial metrics.
-  model: meta-llama/llama-3.2-3b-instruct:free
+  model: llama3.2:3b
 
 schedule:
   interval_seconds: 30

@@ -33,7 +33,7 @@ class BaseAgent:
         self.name = name
         self.model = model
         self.system_prompt = system_prompt
-        self.mesh = OpenRouterClient(cfg.openrouter_url, cfg.openrouter_api_key)
+        self.llm = LLMClient(cfg.llm_url, cfg.llm_api_key)
         self._http = httpx.Client(timeout=30)
         self.graph = self._build_graph()
 
@@ -112,5 +112,6 @@ class BaseAgent:
         return AgentState(**{k: v for k, v in result.items() if k in AgentState.__dataclass_fields__})
 
     def close(self):
-        self.mesh.close()
+        self.llm.close()
         self._http.close()
+._http.close()

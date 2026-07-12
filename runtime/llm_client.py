@@ -15,8 +15,8 @@ class LLMResponse:
     usage: dict = field(default_factory=dict)
 
 
-class OpenRouterClient:
-    """Thin HTTP client for OpenRouter — OpenAI-compatible /v1/chat/completions."""
+class LLMClient:
+    """Thin HTTP client — OpenAI-compatible /v1/chat/completions. Works with Ollama, OpenRouter, Gemini, etc."""
 
     def __init__(self, base_url: str, api_key: str, timeout: float = 120.0):
         self.base_url = base_url.rstrip("/")

@@ -6,7 +6,6 @@ services:
       POSTGRES_USER: trokk
       POSTGRES_PASSWORD: trokk
       POSTGRES_DB: trokk
-      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
     volumes:

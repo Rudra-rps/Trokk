@@ -7,7 +7,7 @@ class ResearchAgent(BaseAgent):
         super().__init__(
             cfg=cfg,
             name="research-agent",
-            model="google/gemini-2.0-flash-001",
+            model="llama3.2:3b",
             system_prompt=(
                 "You are a research specialist agent in the Trokk intelligence operating system. "
                 "Your role is to investigate questions using web search, official documentation, "

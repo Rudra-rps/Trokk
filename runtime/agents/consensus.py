@@ -67,8 +67,8 @@ class ConsensusAgent:
             LLMMessage(role="user", content=prompt),
         ]
 
-        resp = self.mesh.chat(
-            model="google/gemini-2.0-flash-001",
+        resp = self.llm.chat(
+            model="llama3.2:3b",
             messages=messages,
             max_tokens=4096,
             temperature=0.3,

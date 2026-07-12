@@ -1,0 +1,1 @@
+{"time":"2026-07-11T12:36:38.8648992+05:30","level":"ERROR","msg":"postgres ping failed","error":"failed to connect to `user=trokk database=trokk`: 127.0.0.1:5432 (127.0.0.1): failed SASL auth: FATAL: password authentication failed for user \"trokk\" (SQLSTATE 28P01)"}

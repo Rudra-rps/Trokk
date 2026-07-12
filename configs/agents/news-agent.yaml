@@ -2,7 +2,7 @@ agent:
   name: news-agent
   display_name: News Agent
   description: News and press release analyst. Monitors RSS feeds, news APIs, and press releases for relevant information.
-  model: meta-llama/llama-3.2-3b-instruct:free
+  model: llama3.2:3b
 
 schedule:
   interval_seconds: 30
